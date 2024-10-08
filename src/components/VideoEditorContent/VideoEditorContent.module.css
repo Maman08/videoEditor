@@ -371,6 +371,10 @@
         box-shadow: 4px 0 8px rgba(0, 0, 0, 0.7) !important;
   }
   
+
+  .audio-track-row::-webkit-scrollbar {
+    display: none; 
+  }
   
   
   

@@ -31,6 +31,10 @@ const Waveform = forwardRef(({
     barWidth: 1.5,
     autoCenter: true,
     minPxPerSec:timeToPixelRatio,
+    interact:false,
+    hideScrollbar:true,
+    cursorWidth: 0,
+    progressColor:waveColor,
   });
 
   useEffect(() => {

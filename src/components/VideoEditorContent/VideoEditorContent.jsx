@@ -451,7 +451,7 @@ const toggleMute = () => {
                     position: 'relative',objectFit: "cover" 
                 }}/>
                     <div className={styles["aspect-ratio-toggle"]} onClick={toggleAspectRatio}>
-                        {aspectRatio === '16:9' ? <FaExpand /> : <FaCompress />}
+                        {aspectRatio === '16:9' ? <FaCompress /> : <FaExpand />}
                     </div>
                 </div>
 
@@ -858,7 +858,7 @@ const generateTimelineData = () => {
     }
 
     return (
-        <div className={styles["audio-tracks-container"]} style={{ marginTop: "-2vh",overflowX: "auto" ,gap:"0vh" , maxHeight:isVideoRendered?"17.5vh" :"40vh"}}>
+        <div className={styles["audio-tracks-container"]} style={{ marginTop: "-2vh" ,gap:"0vh" , maxHeight:isVideoRendered?"17.5vh" :"40vh"}}>
             {audioTracks.map((track, index) => {
                 // Check if track is valid
                 if (!track || !track.audioDetails) {
@@ -872,7 +872,7 @@ const generateTimelineData = () => {
                         className={styles["audio-track"]}
                         style={{ position: 'relative', padding: "-15px" }}
                     >
-                        <div className={styles["audio-track-row"]}>
+                        <div className={styles["audio-track-row"]} style={{overflowX: "auto"}}>
                             {track.audioDetails.map((audioDetail) => {
                                 // Check if audioDetail is valid
                                 if (!audioDetail || !audioDetail.audioId || !audioDetail.url) {
@@ -902,7 +902,7 @@ const generateTimelineData = () => {
                                     return <div>Error rendering waveform for audio ID: {audioDetail.audioId}</div>;
                                 }
                             })}
-                            <div className={styles["plus-icon-container"]} style={{ zIndex: "1000" ,position:"absolute",left:"97%"}}>
+                            <div className={styles["plus-icon-container"]} style={{ zIndex: "1000" ,position:"absolute",left:"96%"}}>
                                 <FaPlus
                                     className={styles["add-icon"]}
                                     onClick={() => document.getElementById(`audio-upload-${index}`).click()}
@@ -1059,9 +1059,9 @@ const generateTimelineData = () => {
             <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
             <div className="timeline" style={{marginTop: isVideoRendered ? '3vh' : '10vh',height:isVideoRendered ? '45vh' : '65vh'}}>
                 <div className="row" style={{display:"flex"}}>
-                  <div className="coll" style={{width:"11.30%",boxShadow: "4px 0 8px rgba(0, 0, 0, 0.7)", position: "relative"}}></div>
+                  <div className="coll" style={{width:"11.30%",boxShadow: "0px 0 8px rgba(0, 0, 0, 0.7)", position: "relative"}}></div>
                   <div className="col" style={{width:"88%", transform:"translateX(0)"}} >
-                    <div className="time-markers"  style={{marginTop:"-1vh",transform: `translateX(${audioMovePosition}px)`}}>
+                    <div className="time-markers"  style={{marginTop:"0vh",transform: `translateX(${audioMovePosition}px)`}}>
                        {createTimeMarkers()}
 
                     </div>
@@ -1070,7 +1070,7 @@ const generateTimelineData = () => {
 
                 {isVideoRendered && (
                     <div className="row" style={{ display: "flex" }}>
-                      <div className="coll" style={{ width: "11.30%",display: "flex", alignItems: "center" ,top:"50%",boxShadow: "4px 0 8px rgba(0, 0, 0, 0.7)", position: "relative"}}>
+                      <div className="coll" style={{ width: "18.30%",display: "flex", alignItems: "center" ,top:"50%",boxShadow: "0px 0 8px rgba(0, 0, 0, 0.7)", position: "relative",zIndex:"10000"}}>
                       <div onClick={toggleMute} style={{cursor:"pointer"}}>
                          {isMuted ? (
                              <FaVolumeMute style={{ fontSize: "30px", color: "#5F5F5F" }} />
@@ -1079,7 +1079,7 @@ const generateTimelineData = () => {
                          )}
                      </div>
                       </div>
-                      <div className="col" style={{ width: "88%", transform: "translateX(0)",marginTop:"-1vh" }}>
+                      <div className="col" style={{ width: "88%", transform: `translateX(${audioMovePosition}px)`,marginTop:"-1vh" ,zIndex:"0"}}>
                         {renderFrames()} 
                       </div>
                     </div>
@@ -1087,10 +1087,10 @@ const generateTimelineData = () => {
 
                        {!isVideoRendered && renderVideoTrack()}
                       <div className="row" style={{display:"flex"}}>
-                        <div className="coll" style={{width:"5%",boxShadow: "50px -20px 8px rgba(0, 0, 0, 0.7)", position: "relative",zIndex:"10000"}}></div>
-                        <div className="col" style={{width:"90%",transition: 'transform 0.1s linear'}}>
-                        <div className="audio-move" style={{maxHeight: isVideoRendered? "140px" : "260px",paddingTop:"1vh", marginLeft: isPlaying?"0":"6%"}}>{renderAudioTracks()}</div>
-                       <div className={styles["add-audio-button"]} style={{marginLeft:"6.8%", marginTop: (!isVideoRendered && audioTracks.length >= 6) || (isVideoRendered && audioTracks.length >= 3) ? "5vh" : "0vh"}}>
+                        <div className="coll" style={{width:"11.30%",boxShadow: "0px -20px 8px rgba(0, 0, 0, 0.7)", position: "relative",zIndex:"10000"}}></div>
+                        <div className="col" style={{width:"88%",transition: 'transform 0.1s linear'}}>
+                        <div className="audio-move" style={{maxHeight: isVideoRendered? "140px" : "260px",paddingTop:"1vh"}}>{renderAudioTracks()}</div>
+                       <div className={styles["add-audio-button"]} style={{ marginTop: (!isVideoRendered && audioTracks.length >= 6) || (isVideoRendered && audioTracks.length >= 3) ? "5vh" : "0vh"}}>
                             <label htmlFor="audio-upload-new" style={{background: "#3a1d83", color: "white", border: "none", borderRadius: "5px", padding: "14px 18px", cursor: "pointer",fontFamily:"Urbanist" }}>
                               + Add Audio
                             </label>
@@ -1111,19 +1111,6 @@ const generateTimelineData = () => {
             </div>
             <div className="controls">
 
-
-            <div className={styles["seek-bar"]} >
-                   <input
-                     ref={seekBarRef}
-                     name="seekBar"
-                     id="seekBar"
-                     type="range"
-                     min="0"
-                     max={100}
-                     value={seekBarValue} // Bind to seekBarValue
-                     onChange={handleSeekBarChange} // Handle seeking
-                   />
-                 </div>
                 
             </div>
             <div className={styles["play-pause-button"]} style={{marginBottom:"30px"}} >
