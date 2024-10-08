@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import styles from "./VideoEditorContent.module.css";
 import {  FaPlus,FaPause,FaPlay,FaExpand, FaCompress,FaTrash,FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 import Waveform from './Waveform.jsx';
+import { BsTranslate } from 'react-icons/bs';
 
 const formatDuration = (totalDurationInSeconds) => {
   const minutes = Math.floor(totalDurationInSeconds / 60);
@@ -46,6 +47,7 @@ const VideoEditorContent = () => {
     const trackRef = useRef(null);
     const [videoLength, setVideoLength] = useState(0);
     const [audioMovePosition, setAudioMovePosition] = useState(0);
+    const[playheadMovePosition,setPlayheadMovePosition]=useState(0);
     const audioMoveRef = useRef(null);
     const [isMuted, setIsMuted] = useState(true);
     
@@ -65,6 +67,47 @@ const VideoEditorContent = () => {
 
         return () => clearInterval(interval); // Clean up the interval on unmount or when paused
     }, [isPlaying]);
+
+
+
+
+    // useEffect(() => {
+    //     let interval;
+    //     if (isPlaying) {
+    //         interval = setInterval(() => {
+    //             setPlayheadMovePosition(prev => prev + 1); // Moving right by 1px every 16ms (~60px/sec)
+    //         }, 20); // ~60 frames per second (1000ms/16 = ~60fps)
+    //     } else {
+    //         clearInterval(interval);
+    //     }
+
+    //     return () => clearInterval(interval); // Clean up the interval on unmount or when paused
+    // }, [isPlaying]);
+
+    useEffect(() => {
+        let interval;
+        
+        if (isPlaying) {
+            interval = setInterval(() => {
+                setElapsedTime(prev => prev + 0.02); // Increment elapsed time by 0.02 seconds (~20ms)
+                
+                if (elapsedTime < 10) {
+                    // Move forward for the first 10 seconds
+                    setPlayheadMovePosition(prev => prev + 1); // Move forward by 1px
+                } else {
+                    // After 10 seconds, alternate moving forward and backward
+                    setPlayheadMovePosition(prev => 
+                        (prev % 2 === 0 ? prev + 1 : prev - 1)
+                    );
+                }
+            }, 20); // ~60 frames per second (1000ms/20 = ~50fps)
+        } else {
+            clearInterval(interval);
+        }
+    
+        return () => clearInterval(interval); // Clean up the interval on unmount or when paused
+    }, [isPlaying, elapsedTime]);
+
 
   useEffect(() => {
     const videoElement = videoRef.current; // Get the video element
@@ -1044,10 +1087,10 @@ const generateTimelineData = () => {
 
                        {!isVideoRendered && renderVideoTrack()}
                       <div className="row" style={{display:"flex"}}>
-                        <div className="coll" style={{width:"11%",boxShadow: "4px 0 8px rgba(0, 0, 0, 0.7)", position: "relative"}}></div>
-                        <div className="col" style={{width:"88%",transition: 'transform 0.1s linear'}}>
-                        <div className="audio-move" style={{maxHeight: isVideoRendered? "140px" : "260px",paddingTop:"1vh"}}>{renderAudioTracks()}</div>
-                       <div className={styles["add-audio-button"]} style={{ marginTop: (!isVideoRendered && audioTracks.length >= 6) || (isVideoRendered && audioTracks.length >= 3) ? "5vh" : "0vh"}}>
+                        <div className="coll" style={{width:"5%",boxShadow: "50px -20px 8px rgba(0, 0, 0, 0.7)", position: "relative",zIndex:"10000"}}></div>
+                        <div className="col" style={{width:"90%",transition: 'transform 0.1s linear'}}>
+                        <div className="audio-move" style={{maxHeight: isVideoRendered? "140px" : "260px",paddingTop:"1vh", marginLeft: isPlaying?"0":"6%"}}>{renderAudioTracks()}</div>
+                       <div className={styles["add-audio-button"]} style={{marginLeft:"6.8%", marginTop: (!isVideoRendered && audioTracks.length >= 6) || (isVideoRendered && audioTracks.length >= 3) ? "5vh" : "0vh"}}>
                             <label htmlFor="audio-upload-new" style={{background: "#3a1d83", color: "white", border: "none", borderRadius: "5px", padding: "14px 18px", cursor: "pointer",fontFamily:"Urbanist" }}>
                               + Add Audio
                             </label>
@@ -1064,7 +1107,7 @@ const generateTimelineData = () => {
                   
 
 
-                <div className="timeline-indicator" ref={timelineIndicatorRef}  ></div> 
+                <div className="timeline-indicator" ref={timelineIndicatorRef}   style={{transform: `translateX(${playheadMovePosition}px)`}}></div> 
             </div>
             <div className="controls">
 
