@@ -1047,7 +1047,7 @@ const generateTimelineData = () => {
                         <div className="coll" style={{width:"11%",boxShadow: "4px 0 8px rgba(0, 0, 0, 0.7)", position: "relative"}}></div>
                         <div className="col" style={{width:"88%",transition: 'transform 0.1s linear'}}>
                         <div className="audio-move" style={{maxHeight: isVideoRendered? "140px" : "260px",paddingTop:"1vh"}}>{renderAudioTracks()}</div>
-                       <div className={styles["add-audio-button"]} style={{ marginTop: audioTracks.length >= 6 ? "5vh" : "0vh" }}>
+                       <div className={styles["add-audio-button"]} style={{ marginTop: (!isVideoRendered && audioTracks.length >= 6) || (isVideoRendered && audioTracks.length >= 3) ? "5vh" : "0vh"}}>
                             <label htmlFor="audio-upload-new" style={{background: "#3a1d83", color: "white", border: "none", borderRadius: "5px", padding: "14px 18px", cursor: "pointer",fontFamily:"Urbanist" }}>
                               + Add Audio
                             </label>
