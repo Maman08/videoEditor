@@ -462,7 +462,7 @@ const toggleMute = () => {
             <div style={{background:"#121212",width:"88%",height:"9vh" }}>  
                <div style={{transform:"translateY(2.5vh)"}}>
                <label
-                style={{ background: "#3a1d83", color: "white", border: "none", borderRadius: "5px", padding: "14px 18px", cursor: "pointer"}}
+                style={{ background: "#3a1d83", color: "white", border: "none", borderRadius: "5px", padding: "14px 18px", cursor: "pointer",marginLeft:"11px"}}
                 htmlFor="video-upload"
                     >
                         + Add Video
@@ -1069,8 +1069,8 @@ const generateTimelineData = () => {
                 </div>
 
                 {isVideoRendered && (
-                    <div className="row" style={{ display: "flex" }}>
-                      <div className="coll" style={{ width: "18.30%",display: "flex", alignItems: "center" ,top:"50%",boxShadow: "0px 0 8px rgba(0, 0, 0, 0.7)", position: "relative",zIndex:"10000"}}>
+                    <div className="row" style={{ display: "flex" ,}}>
+                      <div className="coll" style={{ width: "14%",display: "flex", alignItems: "center" ,top:"50%",boxShadow: "0px 0 8px rgba(0, 0, 0, 0.7)", position: "relative",zIndex:"10000",background:"black"}}>
                       <div onClick={toggleMute} style={{cursor:"pointer"}}>
                          {isMuted ? (
                              <FaVolumeMute style={{ fontSize: "30px", color: "#5F5F5F" }} />
@@ -1087,11 +1087,11 @@ const generateTimelineData = () => {
 
                        {!isVideoRendered && renderVideoTrack()}
                       <div className="row" style={{display:"flex"}}>
-                        <div className="coll" style={{width:"11.30%",boxShadow: "0px -20px 8px rgba(0, 0, 0, 0.7)", position: "relative",zIndex:"10000"}}></div>
+                        <div className="coll" style={{width:"11.30%",position: "relative",zIndex:"10000"}}></div>
                         <div className="col" style={{width:"88%",transition: 'transform 0.1s linear'}}>
                         <div className="audio-move" style={{maxHeight: isVideoRendered? "140px" : "260px",paddingTop:"1vh"}}>{renderAudioTracks()}</div>
                        <div className={styles["add-audio-button"]} style={{ marginTop: (!isVideoRendered && audioTracks.length >= 6) || (isVideoRendered && audioTracks.length >= 3) ? "5vh" : "0vh"}}>
-                            <label htmlFor="audio-upload-new" style={{background: "#3a1d83", color: "white", border: "none", borderRadius: "5px", padding: "14px 18px", cursor: "pointer",fontFamily:"Urbanist" }}>
+                            <label htmlFor="audio-upload-new" style={{background: "#3a1d83", color: "white", border: "none", borderRadius: "5px", padding: "14px 18px", cursor: "pointer",fontFamily:"Urbanist" ,marginLeft:"8px"}}>
                               + Add Audio
                             </label>
                             <input
