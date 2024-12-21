@@ -7,7 +7,7 @@ A web-based multi-track video editor built with **React** and **Wavesurfer.js**.
 ## Features
 
 - **Upload Videos and Audios**:
-  - Add a video file to the editor.
+  - Add a videos file to the editor.
   - Add multiple audio tracks to the timeline.
 
 - **Drag and Drop Functionality**:
