@@ -62,4 +62,4 @@ Ensure you have the following installed:
    ```bash
    npm start   
 
-![alt text](image.png)
+![alt text](image-1.png)
